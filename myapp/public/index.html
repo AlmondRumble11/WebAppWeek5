@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!--https://materializecss.com/getting-started.html-->
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script src="./javascripts/functions.js"></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/style.css" />
+    <title>Recipes</title>
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#!" class="brand-logo">Recipes</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
+                <li>
+                    <a href=""></a>
+                </li>
+                <li>
+                    <a href=""></a>
+                </li>
+                <li>
+                    <a href=""></a>
+                </li>
+                <li>
+                    <a href=""></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <ul class="sidenav" id="mobile-demo">
+        <li>
+            <a href=""></a>
+        </li>
+        <li>
+            <a href=""></a>
+        </li>
+        <li>
+            <a href=""></a>
+        </li>
+        <li>
+            <a href=""></a>
+        </li>
+    </ul>
+    <div class="container">
+
+
+
+
+
+        <!--Recipe-->
+        <div class="col" id="recipe-food">
+            <h2 id="food-name"></h2>
+            <h3 id="ingredient-name"></h3>
+            <dl id="ingredient-list"></dl>
+            <h3 id="instruction-name"></h3>
+            <ol id="instruction-list"></ol>
+        </div>
+
+        <!--add new recipe-->
+        <div class="col">
+            <p>Name:</p>
+            <input type="text" id="name-text">
+            <h4>Ingredients</h4>
+            <textarea id="ingredients-text"></textarea>
+            <button id="add-ingredient" type="button" class="btn green waves-effect">Add ingredient</button>
+            <h4>instructions</h4>
+            <textarea id="instructions-text"></textarea>
+            <button id="add-instruction" type="button" class="btn green waves-effect">Add instruction</button>
+            <button id="submit" type="submit" class="btn green waves-effect">Submit</button>
+
+            <!--https://stackoverflow.com/questions/3828554/how-to-allow-input-type-file-to-accept-only-image-files-->
+            <!--https://stackoverflow.com/questions/1593225/how-to-select-multiple-files-with-input-type-file-->
+
+            <input type="file" id="image-input" accept="image/*" multiple="multiple" />
+
+        </div>
+
+    </div>
+</body>
+
+</html>
