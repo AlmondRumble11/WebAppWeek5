@@ -8,7 +8,9 @@ const Schema = mogoose.Schema;
 let recipeShema = new Schema({
     name: String,
     instructions: Array,
-    ingredients: Array
+    ingredients: Array,
+    categories: Array,
+    images: Array
 });
 
 module.exports = mogoose.model("Recipes", recipeShema);

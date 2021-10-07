@@ -36,16 +36,13 @@
                     <a href=""></a>
                 </li>
                 <li>
-                    <a href=""></a>
+                    <input type="search" name="Search" id="search-function">
                 </li>
             </ul>
         </div>
     </nav>
 
     <ul class="sidenav" id="mobile-demo">
-        <li>
-            <a href=""></a>
-        </li>
         <li>
             <a href=""></a>
         </li>
@@ -81,14 +78,26 @@
             <h4>instructions</h4>
             <textarea id="instructions-text"></textarea>
             <button id="add-instruction" type="button" class="btn green waves-effect">Add instruction</button>
-            <button id="submit" type="submit" class="btn green waves-effect">Submit</button>
 
             <!--https://stackoverflow.com/questions/3828554/how-to-allow-input-type-file-to-accept-only-image-files-->
             <!--https://stackoverflow.com/questions/1593225/how-to-select-multiple-files-with-input-type-file-->
 
+
             <input type="file" id="image-input" accept="image/*" multiple="multiple" />
 
+            <fieldset id="fieldset">
+                <legend id="legend">Categories</legend>
+                <div id="category-div"></div>
+            </fieldset>
+
+
         </div>
+        <button id="submit" type="submit" class="btn green waves-effect">Submit</button>
+
+
+
+
+    </div>
 
     </div>
 </body>
