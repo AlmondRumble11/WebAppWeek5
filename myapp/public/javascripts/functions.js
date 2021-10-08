@@ -40,44 +40,44 @@ function ButtonFunctions() {
 
     //get diets
     console.log("fetch diets from the database");
-    fetch("http://localhost:3000/categories/").then(res => res.json())
-        .then(data => {
-            const dataCount = data.length;
-            dietCount = dataCount;
-            console.log(dataCount);
-            for (var i = 0; i < dataCount; i++) {
-                //add diet categories
-                console.log(data[i].name);
-                const dietlabel = document.createElement("label");
-                const dietInput = document.createElement("input");
-                const dietSpan = document.createElement("span");
+    /* fetch("http://localhost:3000/categories/").then(res => res.json())
+         .then(data => {
+             const dataCount = data.length;
+             dietCount = dataCount;
+             console.log(dataCount);
+             for (var i = 0; i < dataCount; i++) {
+                 //add diet categories
+                 console.log(data[i].name);
+                 const dietlabel = document.createElement("label");
+                 const dietInput = document.createElement("input");
+                 const dietSpan = document.createElement("span");
 
-                //set label
-                dietlabel.setAttribute("for", data[i]._id);
+                 //set label
+                 dietlabel.setAttribute("for", data[i]._id);
 
-                console.log(data[i]._id);
-                //input type, id and name to input
-                dietInput.setAttribute("type", "checkbox");
-                dietInput.name = "category";
-                dietInput.id = data[i]._id;
-                categoryIDs.push(data[i]._id);
+                 console.log(data[i]._id);
+                 //input type, id and name to input
+                 dietInput.setAttribute("type", "checkbox");
+                 dietInput.name = "category";
+                 dietInput.id = data[i]._id;
+                 categoryIDs.push(data[i]._id);
 
-                //add span name
-                dietSpan.innerHTML = data[i].name;
+                 //add span name
+                 dietSpan.innerHTML = data[i].name;
 
-                // add input and span to label
-                dietlabel.appendChild(dietInput);
-                dietlabel.appendChild(dietSpan);
-                dietlabel.appendChild(document.createElement("br"));
+                 // add input and span to label
+                 dietlabel.appendChild(dietInput);
+                 dietlabel.appendChild(dietSpan);
+                 dietlabel.appendChild(document.createElement("br"));
 
-                //get parent node
-                const parentNode = document.getElementById("category-div");
+                 //get parent node
+                 const parentNode = document.getElementById("category-div");
 
-                //append label to parent node
-                parentNode.appendChild(dietlabel);
-            }
-            console.log(data);
-        });
+                 //append label to parent node
+                 parentNode.appendChild(dietlabel);
+             }
+             console.log(data);
+         });*/
 
     //fecth data
 
@@ -145,29 +145,19 @@ function ButtonFunctions() {
                             for (var i = 0; i < dietCount; i++) {
                                 console.log(value, categoryIDs[i]);
                                 console.log(diets[i]);
+                                const checkbox = document.getElementById(value);
                                 if (value == categoryIDs[i]) {
-                                    const checkbox = document.getElementById(value);
+
                                     console.log(checkbox);
                                     checkbox.checked = true;
                                 } else {
                                     console.log(diets[i].name + " is not checked");
+                                    checkbox.checked = false;
                                 }
                             }
                         });
                     });
 
-
-
-                    /*data.ingredients.forEach(element => {
-                        const dlListItem = document.createElement("dd");
-                        dlListItem.innerHTML = element;
-                        ingredientDl.appendChild(dlListItem);
-                    });
-                    data.instructions.forEach(element => {
-                        const olListItem = document.createElement("li");
-                        olListItem.innerHTML = element;
-                        instructionOl.appendChild(olListItem);
-                    });*/
 
                 }).catch(err => { console.log(err) });;
 
@@ -200,7 +190,7 @@ function ButtonFunctions() {
     });
 
     //get images
-    const formData = new FormData(document.querySelector('form'));
+    const formData = new FormData( /*document.querySelector('form')*/ );
     const imageInput = document.getElementById("camera-file-input");
     const imagesArray = [];
 
@@ -213,7 +203,7 @@ function ButtonFunctions() {
         for (var x = 0; x < files.length; x++) {
             //console.log("file " + x + " : " + files[x].);
             formData.append('images', files[x]);
-            imagesArray.push(files[x]);
+            //  imagesArray.push(files[x]);
         }
 
         console.log(files);
@@ -231,15 +221,15 @@ function ButtonFunctions() {
         const diets = document.getElementsByName("category");
         console.log(diets.length);
         let categoryList = [];
-
-        //see if any diet is cheked and uncheck them
-        for (var i = 0; i < dietCount; i++) {
+        const catCount = diets.length
+            //see if any diet is cheked and uncheck them
+        for (var i = 0; i < catCount; i++) {
             console.log(diets[i].id);
             if (diets[i].checked == true) {
                 categoryList.push(diets[i].id);
-                const checkbox = document.getElementById(diets[i].id);
-
-                checkbox.checked = false;
+                //const checkbox = document.getElementById(diets[i].id);
+                //const allCheckboxes = document.getElementsByName("category");
+                diets[i].checked = false;
             }
 
         }
@@ -247,20 +237,37 @@ function ButtonFunctions() {
 
         console.log(categoryList);
 
+        console.log(nameText.value, instructionList, ingredientList, categoryList);
         fetch("http://localhost:3000/recipe/", {
             method: "post",
             headers: {
                 "Content-type": "application/json",
             },
-            body: JSON.stringify({ name: nameText.value, instructions: instructionList, ingredients: ingredientList, categories: categoryList, images: imagesArray })
+            body: JSON.stringify({ name: nameText.value, instructions: instructionList, ingredients: ingredientList, categories: categoryList })
                 /*'{ "name": ' + nameText.value +
                     ', "instructions": ' + instructionList +
                     ', "ingredients": ' + ingredientList + '}'*/
         }).catch(err => { console.log("post error: " + err) });
 
 
+        console.log("adding images");
+        //post images
+        //https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
+        fetch("http://localhost:3000/images", {
+                method: "post",
+                body: formData,
 
-        console.log(nameText.value, instructionList, ingredientList, categoryList, imagesArray);
+
+            })
+            .catch(err => { console.log(err) });
+
+
+
+
+
+
+
+
         //  console.log(formData.get("images"));
 
         //clear the fields
@@ -270,21 +277,13 @@ function ButtonFunctions() {
 
         imageInput.value = "";
         categoryList = [];
-        imagesArray = [];
 
-        console.log("adding images");
-        //post images
-        //https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-        fetch("http://localhost:3000/images", {
-                method: "post",
-                body: formData,
-                headers: formData.getHeaders()
-            })
-            .catch(err => { console.log(err) });
 
         ingredientList = [];
         instructionList = [];
         console.log("submit button works");
-    });
 
-}
+
+
+    })
+};
