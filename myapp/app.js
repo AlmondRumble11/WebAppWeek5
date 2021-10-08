@@ -12,8 +12,8 @@ var app = express();
 
 
 //adding mongo
-const mongoDB = process.env.MONGO_URL || "mongodb://localhost:27017/testdb";
-//connecting to db
+const mongoDB = process.env.MONGO_URL //|| "mongodb://localhost:27017/testdb";
+    //connecting to db
 mongoose.connect(mongoDB);
 mongoose.Promise = Promise;
 const db = mongoose.connection;

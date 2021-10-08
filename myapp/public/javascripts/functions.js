@@ -192,7 +192,7 @@ function ButtonFunctions() {
     //get images
     const formData = new FormData( /*document.querySelector('form')*/ );
     const imageInput = document.getElementById("camera-file-input");
-    const imagesArray = [];
+    let imagesArray = [];
 
 
     imageInput.addEventListener("change", (event) => {
@@ -203,7 +203,8 @@ function ButtonFunctions() {
         for (var x = 0; x < files.length; x++) {
             //console.log("file " + x + " : " + files[x].);
             formData.append('images', files[x]);
-            //  imagesArray.push(files[x]);
+            imagesArray.push(files[x].name);
+            console.log(files[x].name);
         }
 
         console.log(files);
@@ -237,16 +238,14 @@ function ButtonFunctions() {
 
         console.log(categoryList);
 
-        console.log(nameText.value, instructionList, ingredientList, categoryList);
+        console.log(nameText.value, instructionList, ingredientList, categoryList, imagesArray);
         fetch("http://localhost:3000/recipe/", {
             method: "post",
             headers: {
                 "Content-type": "application/json",
             },
-            body: JSON.stringify({ name: nameText.value, instructions: instructionList, ingredients: ingredientList, categories: categoryList })
-                /*'{ "name": ' + nameText.value +
-                    ', "instructions": ' + instructionList +
-                    ', "ingredients": ' + ingredientList + '}'*/
+            body: JSON.stringify({ name: nameText.value, instructions: instructionList, ingredients: ingredientList, categories: categoryList, images: imagesArray })
+
         }).catch(err => { console.log("post error: " + err) });
 
 
@@ -267,6 +266,7 @@ function ButtonFunctions() {
         instrucionText.value = "";
         ingredientText.value = "";
         nameText.value = "";
+        imagesArray = [];
 
         imageInput.value = "";
         categoryList = [];
