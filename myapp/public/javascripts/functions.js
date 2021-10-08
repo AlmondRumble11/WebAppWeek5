@@ -239,24 +239,49 @@ function ButtonFunctions() {
         console.log(categoryList);
 
         console.log(nameText.value, instructionList, ingredientList, categoryList, imagesArray);
-        fetch("http://localhost:3000/recipe/", {
-            method: "post",
-            headers: {
-                "Content-type": "application/json",
-            },
-            body: JSON.stringify({ name: nameText.value, instructions: instructionList, ingredients: ingredientList, categories: categoryList, images: imagesArray })
-
-        }).catch(err => { console.log("post error: " + err) });
-
 
         console.log("adding images");
+        const name = nameText.value;
+        const inslist = instructionList;
+        const imglist = imagesArray;
+        const ctlist = categoryList;
+        const inglist = ingredientList;
+
+
+
         //post images
         //https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
         fetch("http://localhost:3000/images", {
                 method: "post",
                 body: formData,
-            })
-            .catch(err => { console.log(err) });
+            }).then(res => res).then(data =>
+                console.log(data)
+            )
+            .then(() => {
+                fetch("http://localhost:3000/recipe/", {
+                        method: "post",
+                        headers: {
+                            "Content-type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            instructions: inslist,
+                            ingredients: inglist,
+                            categories: ctlist,
+                            images: imglist
+                        })
+
+                    }).then(res => res)
+                    .then(data =>
+                        console.log(data)
+                    )
+                    .catch(err => console.log("post error: " + err));
+
+            });
+
+
+
+
 
 
 

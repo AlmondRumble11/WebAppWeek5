@@ -47,6 +47,7 @@ fs.readFile("./public/categories.json", "utf-8", (err, data) => {
                     name: element.name
                 }).save((err) => {
                     if (err) return console.log(err);
+                    console.log("added to db");
 
                 });
             } else {
@@ -99,7 +100,7 @@ router.get('/recipe/', function(req, res, next) {
 });
 
 let imageNames = [];
-let imageIds = [];
+
 
 
 
@@ -111,27 +112,28 @@ let imageIds = [];
 
 
 router.post('/images', (req, res, next) => {
-    console.log("inside post images");
+
     /* upload(req, res, (err) => {
 
          if (err) {
              console.log("upload error");
          }*/
-    console.log("sdjkfh");
+
     console.log(req.files);
-    console.log("file count: " + req.files.length);
+
     const imageCount = req.files.length;
     for (var x = 0; x < imageCount; x++) {
-
-
+        let originalName = req.files[x].originalname;
+        console.log("server: " + req.files[x].originalname);
+        imageNames.push(req.files[x].originalname);
         new Images({
             buffer: req.files[x].buffer,
-            name: req.files[x].name,
+            name: req.files[x].originalname,
             mimetype: req.files[x].mimetype,
             encoding: req.files[x].encoding
         }).save((err) => {
             if (err) return next(err);
-            console.log("fdojishg");
+            console.log("saved image: " + originalName);
             //return res.send(req.files);
         });
 
@@ -145,38 +147,47 @@ router.post('/images', (req, res, next) => {
 
 router.post('/recipe/', function(req, res, next) {
     //add to database
-    Recipe.findOne({ name: req.body.name }, (err, name) => {
-        if (err) {
-            return next(err);
-        }
-        /*for (var i = 0; i < imageNames.length; i++) {
-            console.log("in images names loop");
-            Images.find({ name: imageNames[i] }, (err, image) => {
-                console.log("found the image");
-                if (err) {
-                    return next(err);
-                }
-                imageIds.push(image._id);
-            });
-        }*/
+    let imageIds = [];
+    Recipe.findOne({ name: req.body.name }).then(name => {
         if (!name) {
-            new Recipe({
-                name: req.body.name,
-                instructions: req.body.instructions,
-                ingredients: req.body.ingredients,
-                categories: req.body.categories,
-                images: []
-            }).save((err) => {
-                if (err) return next(err);
-                return res.send(req.body);
-            });
-        } else {
-            return res.status(403).send("Already has a recipe for that food");
-        }
+            for (var i = 0; i < req.body.images.length; i++) {
 
-    });
+                Images.find({ name: req.body.images[i] })
+                    .then(image => {
+
+                        imageIds.push(image[0]._id);
+                        console.log("id is: " + imageIds);
+                        //imageIds.push(image[0]._id);
+                    }).catch(err => console.log(err))
+                    .then(() => {
+                        /*Recipe.findOne({ name: req.body.name }).then(name => {
+        
+                            if (!name) {*/
+                        if (imageIds.length == req.body.images.length) {
+                            new Recipe({
+                                name: req.body.name,
+                                instructions: req.body.instructions,
+                                ingredients: req.body.ingredients,
+                                categories: req.body.categories,
+                                images: imageIds
+                            }).save((err) => {
+                                if (err) return next(err);
+                                console.log("saved new recipe");
+                            });
+                        }
+
+                    }).catch(err => console.log(err));
+            }
+        } else {
+            console.log("already recipe!!!")
+        }
+    }).catch(err => console.log(err));
+
+
+
+    imageIds = [];
     imageNames = [];
-    //res.json(req.body);
+    return res.json(req.body);
 });
 
 /* GET recipe page . */
