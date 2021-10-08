@@ -12,7 +12,7 @@ var app = express();
 
 
 //adding mongo
-const mongoDB = "mongodb://localhost:27017/testdb"; //process.env.MONGO_URL; //| "mongodb://localhost:27017/testdb";
+const mongoDB = "mongodb://localhost:27017/testdb" || process.env.MONGO_URL;
 //connecting to db
 mongoose.connect(mongoDB);
 mongoose.Promise = Promise;
@@ -24,7 +24,7 @@ db.on("err", console.error.bind(console, "MongoDb connection error"));
 /*const formData = require("express-form-data");
 app.use(formData.parse());*/
 
-const fileParser = require('express-multipart-file-parser');
+const fileParser = require("express-multipart-file-parser");
 app.use(fileParser);
 
 

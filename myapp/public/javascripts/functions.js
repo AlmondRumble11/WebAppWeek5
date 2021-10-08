@@ -256,8 +256,6 @@ function ButtonFunctions() {
         fetch("http://localhost:3000/images", {
                 method: "post",
                 body: formData,
-
-
             })
             .catch(err => { console.log(err) });
 
@@ -277,7 +275,6 @@ function ButtonFunctions() {
         ingredientList = [];
         instructionList = [];
         console.log("submit button works");
-        location.reload();
 
 
 
