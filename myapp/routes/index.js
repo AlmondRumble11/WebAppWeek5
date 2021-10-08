@@ -7,10 +7,32 @@ const mongoose = require("mongoose");
 const Recipes = require("../models/Recipes");
 const category = require("../models/Category");
 const Images = require("../models/Images");
+
+
+
+
 const multer = require('multer')
+
+
+//storage for multer
+/*const storage = multer.diskStorage({
+
+    destination: function(req, file, callback) {
+        callback(null, "./public/images");
+    },
+    filename: function(req, file, callback) {
+        callback(null, file.originalname);
+    }
+});*/
+
+
 
 //get all of the categories and add them to database if they are not there yet
 let categories = [];
+
+
+
+
 
 console.log(categories);
 fs.readFile("./public/categories.json", "utf-8", (err, data) => {
@@ -111,31 +133,67 @@ router.post('/recipe/', function(req, res, next) {
     //res.json(req.body);
 });
 
-//get images
-router.post('/images', (req, res, next) => {
-    //add to database
-    /* Images.findOne({ name: req.body.name }, (err, name) => {
-         if (err) {
-             return next(err);
-         }
-         if (!name) {
-             new Images({
-                 buffer: Buffer,
-                 name: req.body.name,
-                 mimetype: req.body.type,
-                 encoding: req.body.encoding
-             }).save((err) => {
-                 if (err) return next(err);
-                 return res.send(req.body);
-             });
-         } else {
-             return res.status(403).send("Already has a recipe for that food");
-         }
+//post images
 
-     });*/
-    console.log("in images");
-    console.log(req.body);
-    res.end();
+
+
+const upload = multer({ dest: path.join(__dirname, './public/images') }).single("images");
+router.post('/images', (req, res, next) => {
+    console.log("inside post images");
+    upload(req, res, (err) => {
+
+        if (err) {
+            console.log("upload error");
+        }
+        console.log("sdjkfh");
+        console.log(req.files);
+        console.log("file count: " + req.files.length);
+        const imageCount = req.files.length;
+        for (var x = 0; x < imageCount; x++) {
+
+
+            new Images({
+                buffer: req.files[x].buffer,
+                name: req.files[x].originalname,
+                mimetype: req.files[x].mimetype,
+                encoding: req.files[x].encoding
+            }).save((err) => {
+                if (err) return next(err);
+                return res.send(req.files[x]);
+            });
+
+
+            //});
+        }
+        // console.log(req.files['images']);
+
+    });
+    /*console.log("sdjkfh");
+    console.log(req.files);
+    console.log(req.files['images']);*/
+
+    //add to database
+    /* console.log("file count: " + req.files['images'].length);
+     const imageCount = req.files['images'].length;
+     for (var x = 0; x < req.files['images'].length; x++) {
+      
+         console.log(req.files['images'][x].path);
+         new Images({
+             buffer: req.files['images'][x].buffer,
+             name: req.files['images'][x].name,
+             mimetype: req.files[x].mimetype,
+             encoding: req.files['images'][x].encoding
+         }).save((err) => {
+             if (err) return next(err);
+             return res.send(req.files[x]);
+         });
+        
+
+         //});
+     }*/
+    //console.log("in images");
+    //console.log(req.body);
+    res.send(req.files);
 });
 
 /* GET recipe page . */

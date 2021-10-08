@@ -20,7 +20,12 @@ const db = mongoose.connection;
 //mongo error handling
 db.on("err", console.error.bind(console, "MongoDb connection error"));
 
+//https://stackoverflow.com/questions/24800511/express-js-form-data
+/*const formData = require("express-form-data");
+app.use(formData.parse());*/
 
+const fileParser = require('express-multipart-file-parser');
+app.use(fileParser);
 
 
 app.use(logger('dev'));

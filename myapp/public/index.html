@@ -36,7 +36,7 @@
                     <a href=""></a>
                 </li>
                 <li>
-                    <input type="search" name="Search" id="search-function">
+                    <input type="search" name="Search" id="search">
                 </li>
             </ul>
         </div>
@@ -82,17 +82,17 @@
             <!--https://stackoverflow.com/questions/3828554/how-to-allow-input-type-file-to-accept-only-image-files-->
             <!--https://stackoverflow.com/questions/1593225/how-to-select-multiple-files-with-input-type-file-->
 
+            <form method="POST" action="/images" enctype="multipart/form-data">
+                <input type="file" id="camera-file-input" accept="image/*" multiple="multiple" name="images" />
 
-            <input type="file" id="image-input" accept="image/*" multiple="multiple" />
+                <fieldset id="fieldset">
+                    <legend id="legend">Categories</legend>
+                    <div id="category-div"></div>
+                </fieldset>
 
-            <fieldset id="fieldset">
-                <legend id="legend">Categories</legend>
-                <div id="category-div"></div>
-            </fieldset>
-
-
+                <button id="submit" type="submit" class="btn green waves-effect">Submit</button>
+            </form>
         </div>
-        <button id="submit" type="submit" class="btn green waves-effect">Submit</button>
 
 
 

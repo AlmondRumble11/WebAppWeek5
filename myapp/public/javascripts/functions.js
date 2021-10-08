@@ -12,7 +12,7 @@ if (document.readyState !== "loading") {
 
 function ButtonFunctions() {
     //get search function
-    const search = document.getElementById("search-function");
+    const search = document.getElementById("search");
 
 
 
@@ -200,17 +200,18 @@ function ButtonFunctions() {
     });
 
     //get images
-    const formData = new FormData();
-    const imageInput = document.getElementById("image-input");
+    const formData = new FormData(document.querySelector('form'));
+    const imageInput = document.getElementById("camera-file-input");
     const imagesArray = [];
 
 
-    imageInput.addEventListener("change", () => {
+    imageInput.addEventListener("change", (event) => {
         const files = imageInput.files;
-        console.log(files.length);
+        console.log("files: " + files);
+        console.log("file count " + files.length);
         //https://stackoverflow.com/questions/12989442/uploading-multiple-files-using-formdata
         for (var x = 0; x < files.length; x++) {
-            console.log(files[x]);
+            //console.log("file " + x + " : " + files[x].);
             formData.append('images', files[x]);
             imagesArray.push(files[x]);
         }
@@ -259,22 +260,27 @@ function ButtonFunctions() {
 
 
 
-        console.log(nameText.value, instructionList, ingredientList, categoryList);
+        console.log(nameText.value, instructionList, ingredientList, categoryList, imagesArray);
         //  console.log(formData.get("images"));
 
         //clear the fields
         instrucionText.value = "";
         ingredientText.value = "";
         nameText.value = "";
+
         imageInput.value = "";
         categoryList = [];
+        imagesArray = [];
 
+        console.log("adding images");
         //post images
         //https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
         fetch("http://localhost:3000/images", {
-            method: "post",
-            body: formData
-        }).catch(err => { console.log(err) });
+                method: "post",
+                body: formData,
+                headers: formData.getHeaders()
+            })
+            .catch(err => { console.log(err) });
 
         ingredientList = [];
         instructionList = [];
