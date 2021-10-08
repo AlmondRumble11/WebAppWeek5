@@ -40,44 +40,44 @@ function ButtonFunctions() {
 
     //get diets
     console.log("fetch diets from the database");
-    /* fetch("http://localhost:3000/categories/").then(res => res.json())
-         .then(data => {
-             const dataCount = data.length;
-             dietCount = dataCount;
-             console.log(dataCount);
-             for (var i = 0; i < dataCount; i++) {
-                 //add diet categories
-                 console.log(data[i].name);
-                 const dietlabel = document.createElement("label");
-                 const dietInput = document.createElement("input");
-                 const dietSpan = document.createElement("span");
+    fetch("http://localhost:3000/categories/").then(res => res.json())
+        .then(data => {
+            const dataCount = data.length;
+            dietCount = dataCount;
+            console.log(dataCount);
+            for (var i = 0; i < dataCount; i++) {
+                //add diet categories
+                console.log(data[i].name);
+                const dietlabel = document.createElement("label");
+                const dietInput = document.createElement("input");
+                const dietSpan = document.createElement("span");
 
-                 //set label
-                 dietlabel.setAttribute("for", data[i]._id);
+                //set label
+                dietlabel.setAttribute("for", data[i]._id);
 
-                 console.log(data[i]._id);
-                 //input type, id and name to input
-                 dietInput.setAttribute("type", "checkbox");
-                 dietInput.name = "category";
-                 dietInput.id = data[i]._id;
-                 categoryIDs.push(data[i]._id);
+                console.log(data[i]._id);
+                //input type, id and name to input
+                dietInput.setAttribute("type", "checkbox");
+                dietInput.name = "category";
+                dietInput.id = data[i]._id;
+                categoryIDs.push(data[i]._id);
 
-                 //add span name
-                 dietSpan.innerHTML = data[i].name;
+                //add span name
+                dietSpan.innerHTML = data[i].name;
 
-                 // add input and span to label
-                 dietlabel.appendChild(dietInput);
-                 dietlabel.appendChild(dietSpan);
-                 dietlabel.appendChild(document.createElement("br"));
+                // add input and span to label
+                dietlabel.appendChild(dietInput);
+                dietlabel.appendChild(dietSpan);
+                dietlabel.appendChild(document.createElement("br"));
 
-                 //get parent node
-                 const parentNode = document.getElementById("category-div");
+                //get parent node
+                const parentNode = document.getElementById("category-div");
 
-                 //append label to parent node
-                 parentNode.appendChild(dietlabel);
-             }
-             console.log(data);
-         });*/
+                //append label to parent node
+                parentNode.appendChild(dietlabel);
+            }
+            console.log(data);
+        }).catch(err => { console.log(err) });;
 
     //fecth data
 
@@ -263,11 +263,6 @@ function ButtonFunctions() {
 
 
 
-
-
-
-
-
         //  console.log(formData.get("images"));
 
         //clear the fields
@@ -282,6 +277,7 @@ function ButtonFunctions() {
         ingredientList = [];
         instructionList = [];
         console.log("submit button works");
+        location.reload();
 
 
 
