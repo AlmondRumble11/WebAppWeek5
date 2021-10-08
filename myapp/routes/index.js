@@ -4,7 +4,7 @@ var router = express.Router();
 const fs = require("fs");
 const { RSA_NO_PADDING } = require('constants');
 const mongoose = require("mongoose");
-const Recipes = require("../models/Recipes");
+const Recipe = require("../models/Recipe");
 const category = require("../models/Category");
 const Images = require("../models/Images");
 
@@ -60,7 +60,7 @@ fs.readFile("./public/categories.json", "utf-8", (err, data) => {
 
 
 /* GET home page. */
-router.get('/categories/', (req, res, next) => {
+router.get('/category/', (req, res, next) => {
 
     console.log("getting diets from the db");
     category.find({}, (err, categories) => {
@@ -84,7 +84,7 @@ let recipes = [];
 
 router.get('/recipe/', function(req, res, next) {
     //get the excisting recipes
-    Recipes.find({}, (err, recipes) => {
+    Recipe.find({}, (err, recipes) => {
             if (err) {
                 return next(err);
             }
@@ -145,7 +145,7 @@ router.post('/images', (req, res, next) => {
 
 router.post('/recipe/', function(req, res, next) {
     //add to database
-    Recipes.findOne({ name: req.body.name }, (err, name) => {
+    Recipe.findOne({ name: req.body.name }, (err, name) => {
         if (err) {
             return next(err);
         }
@@ -160,7 +160,7 @@ router.post('/recipe/', function(req, res, next) {
             });
         }*/
         if (!name) {
-            new Recipes({
+            new Recipe({
                 name: req.body.name,
                 instructions: req.body.instructions,
                 ingredients: req.body.ingredients,
@@ -182,7 +182,7 @@ router.post('/recipe/', function(req, res, next) {
 /* GET recipe page . */
 router.get('/recipe/:food', function(req, res, next) {
     const foodName = req.params.food;
-    Recipes.find({ name: new RegExp(foodName, "i") }, (err, recipes) => {
+    Recipe.find({ name: new RegExp(foodName, "i") }, (err, recipes) => {
             if (err) {
                 return next(err);
             }

@@ -40,7 +40,7 @@ function ButtonFunctions() {
 
     //get diets
     console.log("fetch diets from the database");
-    fetch("http://localhost:3000/categories/").then(res => res.json())
+    fetch("http://localhost:3000/category/").then(res => res.json())
         .then(data => {
             const dataCount = data.length;
             dietCount = dataCount;
