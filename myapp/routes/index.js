@@ -60,12 +60,12 @@ fs.readFile("./public/categories.json", "utf-8", (err, data) => {
 
 
 
-/* GET home page. */
-router.get('/category/', (req, res, next) => {
+/* GET category page. */
+router.get('/category', (req, res, next) => {
 
     console.log("getting diets from the db");
     category.find({}, (err, categories) => {
-        console.log(categories);
+        //console.log(categories);
         if (err) {
             return next(err);
         }
@@ -75,6 +75,7 @@ router.get('/category/', (req, res, next) => {
             return res.status(404).send("Failed to get diet categories");
         }
     });
+
 
 
 
@@ -150,33 +151,46 @@ router.post('/recipe/', function(req, res, next) {
     let imageIds = [];
     Recipe.findOne({ name: req.body.name }).then(name => {
         if (!name) {
-            for (var i = 0; i < req.body.images.length; i++) {
+            if (req.body.images.length == 0) {
+                new Recipe({
+                    name: req.body.name,
+                    instructions: req.body.instructions,
+                    ingredients: req.body.ingredients,
+                    categories: req.body.categories,
+                    images: imageIds
+                }).save((err) => {
+                    if (err) return next(err);
+                    console.log("saved new recipe");
+                });
+            } else {
+                for (var i = 0; i < req.body.images.length; i++) {
 
-                Images.find({ name: req.body.images[i] })
-                    .then(image => {
+                    Images.find({ name: req.body.images[i] })
+                        .then(image => {
 
-                        imageIds.push(image[0]._id);
-                        console.log("id is: " + imageIds);
-                        //imageIds.push(image[0]._id);
-                    }).catch(err => console.log(err))
-                    .then(() => {
-                        /*Recipe.findOne({ name: req.body.name }).then(name => {
+                            imageIds.push(image[0]._id);
+                            console.log("id is: " + imageIds);
+                            //imageIds.push(image[0]._id);
+                        }).catch(err => console.log(err))
+                        .then(() => {
+                            /*Recipe.findOne({ name: req.body.name }).then(name => {
         
                             if (!name) {*/
-                        if (imageIds.length == req.body.images.length) {
-                            new Recipe({
-                                name: req.body.name,
-                                instructions: req.body.instructions,
-                                ingredients: req.body.ingredients,
-                                categories: req.body.categories,
-                                images: imageIds
-                            }).save((err) => {
-                                if (err) return next(err);
-                                console.log("saved new recipe");
-                            });
-                        }
+                            if (imageIds.length == req.body.images.length) {
+                                new Recipe({
+                                    name: req.body.name,
+                                    instructions: req.body.instructions,
+                                    ingredients: req.body.ingredients,
+                                    categories: req.body.categories,
+                                    images: imageIds
+                                }).save((err) => {
+                                    if (err) return next(err);
+                                    console.log("saved new recipe");
+                                });
+                            }
 
-                    }).catch(err => console.log(err));
+                        }).catch(err => console.log(err));
+                }
             }
         } else {
             console.log("already recipe!!!")
