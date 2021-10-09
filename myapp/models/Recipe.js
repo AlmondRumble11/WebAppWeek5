@@ -13,4 +13,4 @@ let recipeShema = new Schema({
     images: Array
 });
 
-module.exports = mogoose.model("Recipe", recipeShema);
+module.exports = mogoose.model("Recipes", recipeShema);
