@@ -207,7 +207,7 @@ router.post('/recipe/', function(req, res, next) {
 /* GET recipe page . */
 router.get('/recipe/:food', function(req, res, next) {
     const foodName = req.params.food;
-    Recipe.find({ name: new RegExp(foodName, "i") }, (err, recipes) => {
+    Recipe.find({ name: foodName }, (err, recipes) => {
             if (err) {
                 return next(err);
             }

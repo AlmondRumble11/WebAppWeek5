@@ -247,11 +247,28 @@ function ButtonFunctions() {
         const ctlist = categoryList;
         const inglist = ingredientList;
 
+        fetch("http://localhost:3000/recipe/", {
+                method: "post",
+                headers: {
+                    "Content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: name,
+                    instructions: inslist,
+                    ingredients: inglist,
+                    categories: ctlist,
+                    images: imglist
+                })
 
+            }).then(res => res)
+            .then(data =>
+                console.log(data)
+            )
+            .catch(err => console.log("post error: " + err));
 
         //post images
         //https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-        fetch("http://localhost:3000/images", {
+        /* fetch("http://localhost:3000/images", {
                 method: "post",
                 body: formData,
             }).then(res => res).then(data =>
@@ -278,13 +295,7 @@ function ButtonFunctions() {
                     .catch(err => console.log("post error: " + err));
 
             });
-
-
-
-
-
-
-
+*/
         //  console.log(formData.get("images"));
 
         //clear the fields
