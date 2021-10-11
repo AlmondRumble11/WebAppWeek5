@@ -40,15 +40,15 @@ function ButtonFunctions() {
     let categoryIDs = [];
 
     //get diets
-    console.log("fetch diets from the database");
+    // console.log("fetch diets from the database");
     fetch("/category").then(res => res.json())
         .then(data => {
             const dataCount = data.length;
             dietCount = dataCount;
-            console.log(dataCount);
+            //       console.log(dataCount);
             for (var i = 0; i < dataCount; i++) {
                 //add diet categories
-                console.log(data[i].name);
+                //         console.log(data[i].name);
                 const dietlabel = document.createElement("label");
                 const dietInput = document.createElement("input");
                 const dietSpan = document.createElement("span");
@@ -56,7 +56,7 @@ function ButtonFunctions() {
                 //set label
                 dietlabel.setAttribute("for", data[i]._id);
 
-                console.log(data[i]._id);
+                //       console.log(data[i]._id);
                 //input type, id and name to input
                 dietInput.setAttribute("type", "checkbox");
                 dietInput.name = "category";
@@ -77,7 +77,7 @@ function ButtonFunctions() {
                 //append label to parent node
                 parentNode.appendChild(dietlabel);
             }
-            console.log(data);
+            //  console.log(data);
         }).catch(err => { console.log(err) });;
 
     //fecth data
@@ -114,8 +114,8 @@ function ButtonFunctions() {
                 instructionOl.innerHTML = "";
                 imageID = [];
             }
-            console.log("seach value is:" + searchData);
-            console.log("/recipe/" + searchData);
+            //console.log("seach value is:" + searchData);
+            //console.log("/recipe/" + searchData);
             fetch("/recipe/" + searchData).then(res => res.json())
                 .then(data => {
 
@@ -127,68 +127,73 @@ function ButtonFunctions() {
                     console.log(data);
 
                     //get data for the recipe
-                    data.forEach(element => {
-                        foodName.textContent = element.name;
-                        element.ingredients.forEach(value => {
-                            const dlListItem = document.createElement("dd");
-                            dlListItem.innerHTML = value;
-                            ingredientDl.appendChild(dlListItem);
-                        });
-
-                        element.instructions.forEach(value => {
-                            const olListItem = document.createElement("li");
-                            olListItem.innerHTML = value;
-                            instructionOl.appendChild(olListItem);
-                        });
-                        console.log(element.categories);
-                        element.categories.forEach(value => {
-
-                            const diets = document.getElementsByName("category");
-                            for (var i = 0; i < dietCount; i++) {
-                                //console.log(value, categoryIDs[i]);
-                                //console.log(diets[i]);
-                                const checkbox = document.getElementById(value);
-                                if (value == categoryIDs[i]) {
-
-                                    //  console.log(checkbox);
-                                    checkbox.checked = true;
-                                } else {
-                                    console.log(diets[i].name + " is not checked");
-                                    checkbox.checked = false;
-                                }
-                            }
-                        });
-                        console.log("getting image ids from the recipe object");
-                        element.images.forEach(value => {
-                            console.log("imgid: " + value);
-                            imageID.push(value);
-                        });
+                    /* data.forEach(element => {
+                         foodName.textContent = element.name;*/
+                    data.ingredients.forEach(value => {
+                        const dlListItem = document.createElement("dd");
+                        dlListItem.innerHTML = value;
+                        ingredientDl.appendChild(dlListItem);
                     });
+
+                    data.instructions.forEach(value => {
+                        const olListItem = document.createElement("li");
+                        olListItem.innerHTML = value;
+                        instructionOl.appendChild(olListItem);
+                    });
+                    //  console.log(element.categories);
+                    data.categories.forEach(value => {
+
+                        const diets = document.getElementsByName("category");
+                        for (var i = 0; i < dietCount; i++) {
+                            //console.log(value, categoryIDs[i]);
+                            //console.log(diets[i]);
+                            const checkbox = document.getElementById(value);
+                            if (value == categoryIDs[i]) {
+
+                                //  console.log(checkbox);
+                                checkbox.checked = true;
+                            } else {
+                                //    console.log(diets[i].name + " is not checked");
+                                checkbox.checked = false;
+                            }
+                        }
+                    });
+                    //  console.log("getting image ids from the recipe object");
+                    data.images.forEach(value => {
+                        console.log("imgid: " + value);
+                        imageID.push(value);
+                    });
+                }).then(() => {
                     //get images based on the id from the recipe.images
                     const imgDiv = document.getElementById("images");
-                    console.log("getting images using ids:" + imageID);
+                    //  console.log("getting images using ids:" + imageID);
                     for (var i = 0; i < imageID.length; i++) {
                         let img = imageID[i];
-                        console.log("img=" + img);
+                        //     console.log("img=" + img);
                         fetch("/images/" + img).then(res => res).then(data => {
 
-                            console.log("inside img fetch");
-                            console.log(data.url);
+                            //    console.log("inside img fetch");
+                            //    console.log(data.url);
                             const newImg = document.createElement("img");
                             newImg.src = data.url;
                             imgDiv.appendChild(newImg);
                         }).catch(err => console.log(err));
                     }
+                }).then(res => res)
+                .then(data =>
+                    console.log(data)
+                )
+                .catch(err => console.log("post error: " + err));
 
-                }).catch(err => { console.log(err) });
+
+            //}).catch(err => { console.log(err) });
 
 
 
             searchData.innerHTML = "";
         }
 
-    });
-
+    })
 
     //get ingredients
     addIngredient.addEventListener("click", () => {
@@ -196,8 +201,8 @@ function ButtonFunctions() {
         //add to list
         ingredientList.push(ingredientText.value);
 
-        console.log("added " + ingredientText.value + " to list");
-        console.log(ingredientList);
+        //   console.log("added " + ingredientText.value + " to list");
+        //   console.log(ingredientList);
         ingredientText.value = "";
     });
 
@@ -207,8 +212,8 @@ function ButtonFunctions() {
         //add to list
         instructionList.push(instrucionText.value);
 
-        console.log("added " + instrucionText.value + " to list");
-        console.log(instructionList);
+        // console.log("added " + instrucionText.value + " to list");
+        // console.log(instructionList);
         instrucionText.value = "";
     });
 
@@ -220,8 +225,8 @@ function ButtonFunctions() {
 
     imageInput.addEventListener("change", (event) => {
         const files = imageInput.files;
-        console.log("files: " + files);
-        console.log("file count " + files.length);
+        //  console.log("files: " + files);
+        //  console.log("file count " + files.length);
         //https://stackoverflow.com/questions/12989442/uploading-multiple-files-using-formdata
         for (var x = 0; x < files.length; x++) {
             //console.log("file " + x + " : " + files[x].);
@@ -230,8 +235,8 @@ function ButtonFunctions() {
             console.log(files[x].name);
         }
 
-        console.log(files);
-        console.log("iujashdiuhasd" + formData.get('images'));
+        //console.log(files);
+        // console.log("iujashdiuhasd" + formData.get('images'));
 
     });
 
@@ -243,12 +248,12 @@ function ButtonFunctions() {
         const nameText = document.getElementById("name-text");
         //get categories
         const diets = document.getElementsByName("category");
-        console.log(diets.length);
+        // console.log(diets.length);
         let categoryList = [];
         const catCount = diets.length
             //see if any diet is cheked and uncheck them
         for (var i = 0; i < catCount; i++) {
-            console.log(diets[i].id);
+            //  console.log(diets[i].id);
             if (diets[i].checked == true) {
                 categoryList.push(diets[i].id);
                 //const checkbox = document.getElementById(diets[i].id);
@@ -259,11 +264,11 @@ function ButtonFunctions() {
         }
 
 
-        console.log(categoryList);
+        // console.log(categoryList);
 
-        console.log(nameText.value, instructionList, ingredientList, categoryList, imagesArray);
+        //console.log(nameText.value, instructionList, ingredientList, categoryList, imagesArray);
 
-        console.log("adding images");
+        //console.log("adding images");
         const name = nameText.value;
         const inslist = instructionList;
         const imglist = imagesArray;

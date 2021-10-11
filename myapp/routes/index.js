@@ -42,7 +42,7 @@ fs.readFile("./public/categories.json", "utf-8", (err, data) => {
             if (err) {
                 return next(err);
             }
-            console.log(element);
+            // console.log(element);
             if (!name) {
                 new category({
                     name: element.name
@@ -92,7 +92,7 @@ router.get('/recipe/', function(req, res, next) {
                 return next(err);
             }
             if (recipes) {
-                return res.json(recipes);
+                return res.send(recipes);
             } else {
                 return res.status(404).send("Recipes not found!");
             }
@@ -170,7 +170,7 @@ router.post('/recipe/', function(req, res, next) {
                         .then(image => {
 
                             imageIds.push(image[0]._id);
-                            console.log("id is: " + imageIds);
+                            // console.log("id is: " + imageIds);
                             //imageIds.push(image[0]._id);
                         }).catch(err => console.log(err))
                         .then(() => {
@@ -208,13 +208,15 @@ router.post('/recipe/', function(req, res, next) {
 /* GET recipe page . */
 router.get('/recipe/:food', function(req, res, next) {
     const foodName = req.params.food;
+
     Recipe.find({ name: foodName }, (err, recipes) => {
+            console.log("recipes:" + recipes[0]);
             if (err) {
                 return next(err);
             }
             if (recipes.length > 0) {
-                console.log(recipes);
-                return res.send(recipes)
+                // console.log(recipes);
+                return res.json(recipes[0])
 
             } else {
 
@@ -223,7 +225,7 @@ router.get('/recipe/:food', function(req, res, next) {
         }
 
     );
-    console.log(req.params.food);
+    //console.log(req.params.food);
 
 });
 
@@ -234,7 +236,7 @@ router.get('/images/:imageid', function(req, res, next) {
             return next(err);
         }
         if (image.length > 0) {
-            console.log(image[0]._id);
+            // console.log(image[0]._id);
             res.set({ 'Content-Type': image[0].mimetype });
             res.set({ 'Content-Disposition': 'incline' });
             return res.send(image[0].buffer);
