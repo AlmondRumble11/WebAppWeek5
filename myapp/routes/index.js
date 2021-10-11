@@ -236,9 +236,9 @@ router.get('/images/:imageid', function(req, res, next) {
             return next(err);
         }
         if (image.length > 0) {
-            // console.log(image[0]._id);
+            console.log(image[0].mimetype);
             res.set({ 'Content-Type': image[0].mimetype });
-            res.set({ 'Content-Disposition': 'incline' });
+            res.set({ 'Content-Disposition': 'inline;filename=' + image[0].name });
             return res.send(image[0].buffer);
         } else {
             return res.status(403).send("No image has this '" + imgId + "' id");
