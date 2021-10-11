@@ -40,7 +40,7 @@ function ButtonFunctions() {
 
     //get diets
     console.log("fetch diets from the database");
-    fetch("http://localhost:3000/category").then(res => res.json())
+    fetch("/category").then(res => res.json())
         .then(data => {
             const dataCount = data.length;
             dietCount = dataCount;
@@ -113,8 +113,8 @@ function ButtonFunctions() {
                 instructionOl.innerHTML = "";
             }
             console.log("seach value is:" + searchData);
-            console.log("http://localhost:3000/recipe/" + searchData);
-            fetch("http://localhost:3000/recipe/" + searchData).then(res => res.json())
+            console.log("/recipe/" + searchData);
+            fetch("/recipe/" + searchData).then(res => res.json())
                 .then(data => {
 
 
@@ -247,35 +247,35 @@ function ButtonFunctions() {
         const ctlist = categoryList;
         const inglist = ingredientList;
 
-        fetch("http://localhost:3000/recipe/", {
-                method: "post",
-                headers: {
-                    "Content-type": "application/json",
-                },
-                body: JSON.stringify({
-                    name: name,
-                    instructions: inslist,
-                    ingredients: inglist,
-                    categories: ctlist,
-                    images: imglist
-                })
+        /* fetch("/recipe/", {
+                 method: "post",
+                 headers: {
+                     "Content-type": "application/json",
+                 },
+                 body: JSON.stringify({
+                     name: name,
+                     instructions: inslist,
+                     ingredients: inglist,
+                     categories: ctlist,
+                     images: imglist
+                 })
 
-            }).then(res => res)
-            .then(data =>
-                console.log(data)
-            )
-            .catch(err => console.log("post error: " + err));
+             }).then(res => res)
+             .then(data =>
+                 console.log(data)
+             )
+             .catch(err => console.log("post error: " + err));*/
 
         //post images
         //https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-        /* fetch("http://localhost:3000/images", {
+        fetch("/images", {
                 method: "post",
                 body: formData,
             }).then(res => res).then(data =>
                 console.log(data)
             )
             .then(() => {
-                fetch("http://localhost:3000/recipe/", {
+                fetch("/recipe/", {
                         method: "post",
                         headers: {
                             "Content-type": "application/json",
@@ -295,7 +295,7 @@ function ButtonFunctions() {
                     .catch(err => console.log("post error: " + err));
 
             });
-*/
+
         //  console.log(formData.get("images"));
 
         //clear the fields
