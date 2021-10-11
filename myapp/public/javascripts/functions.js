@@ -78,7 +78,7 @@ function ButtonFunctions() {
                 parentNode.appendChild(dietlabel);
             }
             //  console.log(data);
-        }).catch(err => { console.log(err) });;
+        }).catch(err => { console.log(err) });
 
     //fecth data
 
@@ -121,7 +121,7 @@ function ButtonFunctions() {
 
 
                     // foodName.textContent = data.name;
-
+                    foodName.innerHTML = data.name;
                     instructionName.textContent = "Instruction";
                     ingredientName.textContent = "Ingredient";
                     console.log(data);
@@ -191,9 +191,9 @@ function ButtonFunctions() {
 
 
             searchData.innerHTML = "";
-        }
 
-    })
+        }
+    });
 
     //get ingredients
     addIngredient.addEventListener("click", () => {
