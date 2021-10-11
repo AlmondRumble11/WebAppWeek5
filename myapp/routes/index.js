@@ -218,7 +218,7 @@ router.get('/recipe/:food', function(req, res, next) {
 
             } else {
 
-                return res.status(404).send("No recipe that has " + foodName + " in the name");
+                return res.status(403).send("No recipe that has " + foodName + " in the name");
             }
         }
 
@@ -227,6 +227,22 @@ router.get('/recipe/:food', function(req, res, next) {
 
 });
 
+router.get('/images/:imageid', function(req, res, next) {
+    const imgId = req.params.imageid;
+    Images.find({ _id: imgId }, (err, image) => {
+        if (err) {
+            return next(err);
+        }
+        if (image.length > 0) {
+            console.log(image[0]._id);
+            res.set({ 'Content-Type': image[0].mimetype });
+            res.set({ 'Content-Disposition': 'incline' });
+            return res.send(image[0].buffer);
+        } else {
+            return res.status(403).send("No image has this '" + imgId + "' id");
+        }
 
+    })
+});
 
 module.exports = router;

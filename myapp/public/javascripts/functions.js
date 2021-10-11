@@ -23,6 +23,7 @@ function ButtonFunctions() {
 
     let ingredientList = [];
     let instructionList = [];
+    let imageID = [];
 
     //get the text
     const instrucionText = document.getElementById("instructions-text");
@@ -111,6 +112,7 @@ function ButtonFunctions() {
             if (foodName.textContent != "") {
                 ingredientDl.innerHTML = "";
                 instructionOl.innerHTML = "";
+                imageID = [];
             }
             console.log("seach value is:" + searchData);
             console.log("/recipe/" + searchData);
@@ -143,12 +145,12 @@ function ButtonFunctions() {
 
                             const diets = document.getElementsByName("category");
                             for (var i = 0; i < dietCount; i++) {
-                                console.log(value, categoryIDs[i]);
-                                console.log(diets[i]);
+                                //console.log(value, categoryIDs[i]);
+                                //console.log(diets[i]);
                                 const checkbox = document.getElementById(value);
                                 if (value == categoryIDs[i]) {
 
-                                    console.log(checkbox);
+                                    //  console.log(checkbox);
                                     checkbox.checked = true;
                                 } else {
                                     console.log(diets[i].name + " is not checked");
@@ -156,10 +158,31 @@ function ButtonFunctions() {
                                 }
                             }
                         });
+                        console.log("getting image ids from the recipe object");
+                        element.images.forEach(value => {
+                            console.log("imgid: " + value);
+                            imageID.push(value);
+                        });
                     });
+                    //get images based on the id from the recipe.images
+                    const imgDiv = document.getElementById("images");
+                    console.log("getting images using ids:" + imageID);
+                    for (var i = 0; i < imageID.length; i++) {
+                        let img = imageID[i];
+                        console.log("img=" + img);
+                        fetch("/images/" + img).then(res => res).then(data => {
+
+                            console.log("inside img fetch");
+                            console.log(data.url);
+                            const newImg = document.createElement("img");
+                            newImg.src = data.url;
+                            imgDiv.appendChild(newImg);
+                        }).catch(err => console.log(err));
+                    }
+
+                }).catch(err => { console.log(err) });
 
 
-                }).catch(err => { console.log(err) });;
 
             searchData.innerHTML = "";
         }
