@@ -105,7 +105,7 @@ function ButtonFunctions() {
             }).catch(err => { console.log(err) });;
     */
     //fectch search data
-    search.addEventListener("keyup", (event) => {
+    search.addEventListener("keypress", (event) => {
         const searchData = search.value;
 
         if (event.key == "Enter") {
